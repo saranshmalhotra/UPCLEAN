@@ -70,47 +70,111 @@ brew install mas
 
    Now you can run the command using `upclean` from any terminal session.
 
+
+---
+
 ## Usage
 
-To use the UPCLEAN script, simply run the following command in your terminal:
+The `UPCLEAN` script offers two main options for performing system maintenance tasks: one for cleaning up the system and another for cleaning up and upgrading both the system and installed applications.
+
+### 1. **Cleanup Only (`-c` Option)**
+
+To **only clean up** system caches, free up memory, and clear DNS and browser caches, you can use the `-c` option. This will not perform any software upgrades.
+
+#### Example Command:
 
 ```bash
-upclean
+upclean -c
 ```
 
-This will execute the script and automatically handle the following tasks:
+#### Actions Performed:
+- Cleans system caches from `/Library/Caches`, `/System/Library/Caches`, `/private/tmp`, and `/private/var`.
+- Clears browser caches for Safari and Chrome.
+- Frees inactive memory using the `purge` command.
+- Clears the DNS cache.
 
-1. Clean system and browser caches.
-2. Free up inactive memory.
-3. Check for and install macOS updates.
-4. Update App Store applications.
-5. Update Homebrew and all installed formulae.
-6. Update Python packages (via pip).
-7. Update globally installed npm packages.
-8. Update Rust and Cargo packages.
-9. Check and repair the disk (if necessary).
-10. Flush DNS cache.
-11. Enable automatic updates for App Store apps.
+This option is ideal when you just want to free up space and improve system performance without upgrading software.
 
-You will be prompted for your administrator password during the process as some operations (e.g., system updates and disk repairs) require elevated privileges.
+### 2. **Cleanup and Upgrade (`-u` Option)**
 
-### Example
+To **clean up the system** and also **upgrade** macOS, App Store applications, Homebrew, Python packages, npm packages, and Rust packages, use the `-u` option.
+
+#### Example Command:
 
 ```bash
-$ upclean
-Cleaning system cache and temporary files...
-Freeing up RAM and inactive memory...
-Clearing DNS cache...
-Updating macOS and system software...
-Updating App Store applications...
-Updating Homebrew...
-Updating pip and its packages...
-Updating global npm packages...
-Updating Rust and Cargo packages...
-Verifying and repairing disk...
-Process completed!
+upclean -u
 ```
 
+#### Actions Performed:
+1. **Cleanup**:
+   - Cleans system caches.
+   - Frees inactive memory.
+   - Clears DNS and browser caches.
+
+2. **Upgrade**:
+   - **macOS System Updates**: Runs `softwareupdate` to install any available macOS updates.
+   - **App Store Updates**: Uses `mas` to update applications installed via the Mac App Store.
+   - **Homebrew Updates**: Updates Homebrew itself and all installed formulae, then cleans up outdated packages.
+   - **Python Packages**: Upgrades `pip` and updates all Python packages installed via `pip`.
+   - **Node.js Packages**: Updates globally installed npm packages.
+   - **Rust Packages**: Updates Rust and all installed Cargo packages.
+
+3. **Disk Check and Repair**:
+   - Verifies and repairs disk health using `diskutil`.
+
+This option is useful when you want to perform full system maintenance, including software updates and disk checks.
+
+### 3. **Help and Invalid Options**
+
+If you use an invalid option or no options at all, the script will display a usage message with valid options:
+
+#### Example Command:
+
+```bash
+upclean -x
+```
+
+#### Output:
+
+```bash
+Invalid option: -x
+Usage: ./upclean [-c] [-u]
+```
+
+If you run the script without any options, it will also prompt you to choose one of the available options.
+
+---
+
+### Example Usage Scenarios
+
+1. **Quick Cleanup**:
+   - You want to quickly clean your system without upgrading software:
+     ```bash
+     upclean -c
+     ```
+
+2. **Full Cleanup and Upgrade**:
+   - You want to clean the system and upgrade macOS, apps, and packages in one go:
+     ```bash
+     upclean -u
+     ```
+
+---
+
+### Summary of Options:
+
+- `-c`: Cleanup only (system caches, memory, DNS, browser caches).
+- `-u`: Cleanup and upgrade (includes software updates and disk checks).
+
+### Requirements
+
+To use this script, you will need the following tools installed on your macOS system:
+
+- **Homebrew**: For managing system packages (https://brew.sh).
+- **pip**: To manage Python packages (`brew install python`).
+- **npm**: To manage Node.js packages (`brew install node`).
+- **Rust**: To update Rust and Cargo packages (`brew install rustup-init`).
+- **mas**: To manage App Store app updates (`brew install mas`).
 ## How It Works
 
 The UPCLEAN script automates common system maintenance tasks by using native macOS commands and third-party tools like Homebrew, pip, npm, and Rust. Here’s a breakdown of the core functionalities:
