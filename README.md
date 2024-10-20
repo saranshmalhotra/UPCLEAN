@@ -1,7 +1,3 @@
-Here's a detailed and professional `README.md` for your `UPCLEAN` project. This `README` will help users understand what the script does, how to install and use it, and provide details on the functionality it offers. I've also included a section for future development and contributions.
-
----
-
 # UPCLEAN
 
 **UPCLEAN** is a macOS system cleanup and performance optimization script. It automates the process of cleaning caches, freeing up memory, updating system software, and keeping installed applications up-to-date via Homebrew, pip, npm, and more. This script is designed to ensure your macOS environment runs smoothly with minimal manual intervention.
